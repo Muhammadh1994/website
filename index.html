@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammadh Juhaif Abdullah — DevOps Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1720;
+    --panel:#16212C;
+    --panel-alt:#1C2A38;
+    --border:#263544;
+    --text:#E7ECF2;
+    --muted:#8FA1B3;
+    --accent:#5FD9A4;
+    --accent-dim:#2E6B54;
+    --warm:#F2B84B;
+    --mono:'IBM Plex Mono', monospace;
+    --sans:'Space Grotesk', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+  .prose{ max-width:640px; }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(15,23,32,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:60px;
+  }
+  .brand{
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--accent);
+    letter-spacing:0.02em;
+  }
+  .navlinks{ display:flex; gap:28px; }
+  .navlinks a{
+    font-size:14px;
+    color:var(--muted);
+    text-decoration:none;
+    transition:color .15s ease;
+  }
+  .navlinks a:hover{ color:var(--text); }
+
+  /* HERO */
+  header.hero{
+    padding:96px 0 72px;
+    border-bottom:1px solid var(--border);
+  }
+  .status-line{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:7px 14px;
+    border-radius:100px;
+    margin-bottom:32px;
+  }
+  .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 0 rgba(95,217,164,0.6);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(95,217,164,0.5); }
+    70%{ box-shadow:0 0 0 8px rgba(95,217,164,0); }
+    100%{ box-shadow:0 0 0 0 rgba(95,217,164,0); }
+  }
+  h1{
+    font-size:clamp(34px, 5vw, 52px);
+    font-weight:600;
+    line-height:1.12;
+    letter-spacing:-0.01em;
+    max-width:780px;
+  }
+  h1 span{ color:var(--muted); font-weight:500; }
+  .hero-sub{
+    margin-top:20px;
+    max-width:600px;
+    color:var(--muted);
+    font-size:17px;
+  }
+  .hero-actions{
+    display:flex; flex-wrap:wrap; gap:12px;
+    margin-top:36px;
+  }
+  .btn{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:500;
+    padding:11px 20px;
+    border-radius:8px;
+    text-decoration:none;
+    border:1px solid var(--border);
+    color:var(--text);
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .btn.primary{
+    background:var(--accent);
+    color:#0F1720;
+    border-color:var(--accent);
+  }
+  .btn:hover{ border-color:var(--accent); }
+  .btn.primary:hover{ opacity:0.9; }
+
+  /* PIPELINE STRIP */
+  .pipeline{
+    margin-top:64px;
+    display:flex;
+    align-items:center;
+  }
+  .stage{
+    display:flex; flex-direction:column; align-items:center;
+    gap:8px;
+    flex-shrink:0;
+  }
+  .stage .node{
+    width:14px; height:14px;
+    border-radius:50%;
+    background:var(--panel-alt);
+    border:2px solid var(--border);
+    transition:all .4s ease;
+  }
+  .stage.lit .node{
+    background:var(--accent);
+    border-color:var(--accent);
+    box-shadow:0 0 12px rgba(95,217,164,0.5);
+  }
+  .stage label{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    transition:color .4s ease;
+  }
+  .stage.lit label{ color:var(--accent); }
+  .track{
+    flex:1;
+    height:2px;
+    background:var(--border);
+    position:relative;
+    top:-14px;
+    margin:0 -2px;
+    overflow:hidden;
+  }
+  .track .fill{
+    height:100%;
+    width:0%;
+    background:var(--accent);
+    transition:width .5s ease;
+  }
+
+  /* STATS */
+  section#stats{
+    padding:56px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .stat{
+    background:var(--panel);
+    padding:24px 20px;
+  }
+  .stat .num{
+    font-family:var(--mono);
+    font-size:28px;
+    color:var(--accent);
+    font-weight:500;
+  }
+  .stat .label{
+    margin-top:6px;
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  /* SECTION HEADINGS */
+  section{ padding:72px 0; }
+  h2{
+    font-size:26px;
+    font-weight:600;
+    margin-bottom:36px;
+  }
+
+  /* EXPERIENCE - commit timeline */
+  .timeline{
+    position:relative;
+    padding-left:28px;
+    border-left:1px solid var(--border);
+  }
+  .role{
+    position:relative;
+    margin-bottom:52px;
+  }
+  .role:last-child{ margin-bottom:0; }
+  .role::before{
+    content:'';
+    position:absolute;
+    left:-33px; top:4px;
+    width:9px; height:9px;
+    border-radius:50%;
+    background:var(--accent);
+    border:2px solid var(--bg);
+    box-shadow:0 0 0 1px var(--accent);
+  }
+  .role-date{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+  }
+  .role-title{
+    font-size:19px;
+    font-weight:600;
+    margin-top:4px;
+  }
+  .role-org{
+    font-size:14px;
+    color:var(--muted);
+    margin-top:2px;
+    margin-bottom:16px;
+  }
+  .role ul{
+    list-style:none;
+    display:flex; flex-direction:column; gap:11px;
+  }
+  .role li{
+    position:relative;
+    padding-left:18px;
+    font-size:15px;
+    color:#C7D1DB;
+    max-width:680px;
+  }
+  .role li::before{
+    content:'—';
+    position:absolute; left:0;
+    color:var(--muted);
+  }
+
+  /* SKILLS */
+  .skill-group{ margin-bottom:28px; }
+  .skill-group:last-child{ margin-bottom:0; }
+  .skill-cat{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  .chips{
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  .chip{
+    font-size:13px;
+    padding:6px 12px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    color:#C7D1DB;
+    background:var(--panel);
+  }
+
+  /* EDUCATION */
+  .edu-card{
+    border:1px solid var(--border);
+    background:var(--panel);
+    border-radius:10px;
+    padding:24px 26px;
+    max-width:640px;
+  }
+  .edu-degree{ font-size:17px; font-weight:600; }
+  .edu-school{ color:var(--muted); margin-top:4px; font-size:14px; }
+  .edu-date{ font-family:var(--mono); font-size:12px; color:var(--accent); margin-top:10px; }
+
+  /* CONTACT / FOOTER */
+  footer{
+    border-top:1px solid var(--border);
+    padding:64px 0 48px;
+  }
+  footer h2{ margin-bottom:14px; }
+  footer .prose{ color:var(--muted); margin-bottom:32px; }
+  .contact-grid{
+    display:flex; flex-wrap:wrap; gap:14px;
+  }
+  .contact-item{
+    font-family:var(--mono);
+    font-size:14px;
+    padding:12px 18px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--panel);
+    text-decoration:none;
+    color:var(--text);
+    transition:border-color .15s ease;
+  }
+  .contact-item:hover{ border-color:var(--accent); }
+  .foot-note{
+    margin-top:48px;
+    font-size:12px;
+    color:var(--muted);
+    font-family:var(--mono);
+  }
+
+  @media (max-width: 640px){
+    .stat-grid{ grid-template-columns:repeat(2, 1fr); }
+    .pipeline{ display:none; }
+    .navlinks{ display:none; }
+    header.hero{ padding:64px 0 48px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">juhaif.abdullah</div>
+    <div class="navlinks">
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="status-line">
+      <span class="dot"></span>
+      <span id="reloc-text">open to relocation</span>
+    </div>
+    <h1>Muhammadh Juhaif Abdullah<br><span>DevOps Engineer, AWS &amp; Kubernetes</span></h1>
+    <p class="hero-sub">6+ years designing and automating cloud infrastructure, CI/CD pipelines, and Kubernetes platforms — with a growing focus on AI-assisted operations.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="mailto:muhammadh.syed.devops@gmail.com">Email me</a>
+      <a class="btn" href="tel:+16692786874">669-278-6874</a>
+      <a class="btn" href="#experience">See experience</a>
+    </div>
+
+    <div class="pipeline" id="pipeline">
+      <div class="stage" data-stage><div class="node"></div><label>build</label></div>
+      <div class="track"><div class="fill"></div></div>
+      <div class="stage" data-stage><div class="node"></div><label>test</label></div>
+      <div class="track"><div class="fill"></div></div>
+      <div class="stage" data-stage><div class="node"></div><label>deploy</label></div>
+      <div class="track"><div class="fill"></div></div>
+      <div class="stage" data-stage><div class="node"></div><label>live</label></div>
+    </div>
+  </div>
+</header>
+
+<section id="stats">
+  <div class="wrap">
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="num">6+</div>
+        <div class="label">Years in cloud &amp; DevOps engineering</div>
+      </div>
+      <div class="stat">
+        <div class="num">50%</div>
+        <div class="label">Faster feature turnaround after CI/CD overhaul</div>
+      </div>
+      <div class="stat">
+        <div class="num">3</div>
+        <div class="label">End-to-end platform migrations led</div>
+      </div>
+      <div class="stat">
+        <div class="num">AI-Ops</div>
+        <div class="label">Multi-agent system built for Kubernetes</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <h2>Experience</h2>
+    <div class="timeline">
+
+      <div class="role">
+        <div class="role-date">Feb 2020 — Present</div>
+        <div class="role-title">DevOps Engineer</div>
+        <div class="role-org">Stellar IT Solutions · Client: Charter Communications</div>
+        <ul>
+          <li>Designed an event-driven, serverless workflow using Lambda, Step Functions, and SES to automate EKS node AMI compliance across clusters, replacing a fully manual audit process.</li>
+          <li>Built a multi-agent AI system that pulls live Kubernetes data through a Rancher MCP server to answer natural-language operational questions and generate reports, cutting manual investigation time.</li>
+          <li>Led the migration of MongoDB to Amazon DocumentDB using AWS DMS, including schema validation, cutover planning, and the supporting Terraform infrastructure.</li>
+          <li>Migrated CI/CD from Jenkins to GitLab and built an end-to-end pipeline for Java and Python applications using Maven and Kaniko — cutting feature turnaround time by 50%.</li>
+          <li>Drove Kubernetes cost optimization by dynamically scaling pods on CPU, memory, and queue-lag metrics with Prometheus, KEDA, and Datadog.</li>
+          <li>Led cluster upgrades from Kubernetes 1.10 to 1.21 and onward to Amazon EKS, implementing IAM Service Accounts (IRSA) to strengthen infrastructure security.</li>
+          <li>Replaced a Vault-based configuration approach with a GitLab CI/CD and Helm-driven ConfigMap solution, and standardized deployments with template-driven Helm charts.</li>
+          <li>Owned all build and deploy pipelines for the team, defining development, test, release, and support processes end-to-end.</li>
+        </ul>
+      </div>
+
+      <div class="role">
+        <div class="role-date">Jun 2016 — May 2017</div>
+        <div class="role-title">Software Engineer</div>
+        <div class="role-org">SetupBoxs</div>
+        <ul>
+          <li>Developed internal RESTful web service APIs in Java, gaining hands-on backend development experience.</li>
+          <li>Monitored infrastructure for SOP compliance, tracking CPU, memory, disk, and swap usage to prevent performance issues.</li>
+          <li>Ensured MySQL high availability and configured backup instances on AWS RDS.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2>Skills</h2>
+
+    <div class="skill-group">
+      <div class="skill-cat">Cloud</div>
+      <div class="chips">
+        <span class="chip">AWS (EC2, EKS, Lambda, Step Functions, SES, VPC, RDS, IAM, SQS, SNS)</span>
+        <span class="chip">Azure</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Containers &amp; orchestration</div>
+      <div class="chips">
+        <span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">EKS</span>
+        <span class="chip">Helm</span><span class="chip">HelmFiles</span><span class="chip">Argo CD</span>
+        <span class="chip">KOPS</span><span class="chip">Cluster API</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Infrastructure as code</div>
+      <div class="chips">
+        <span class="chip">Terraform</span><span class="chip">CloudFormation</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">CI/CD &amp; build</div>
+      <div class="chips">
+        <span class="chip">Jenkins</span><span class="chip">GitLab CI/CD</span>
+        <span class="chip">Maven</span><span class="chip">Kaniko</span><span class="chip">JFrog Artifactory</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Automation &amp; scripting</div>
+      <div class="chips">
+        <span class="chip">Python (Boto3)</span><span class="chip">Shell</span><span class="chip">Ansible</span>
+        <span class="chip">Kiro (AI coding agent)</span><span class="chip">Multi-agent systems</span><span class="chip">MCP</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Monitoring &amp; observability</div>
+      <div class="chips">
+        <span class="chip">Splunk</span><span class="chip">Prometheus</span><span class="chip">Grafana</span>
+        <span class="chip">Datadog</span><span class="chip">Rancher</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Security</div>
+      <div class="chips">
+        <span class="chip">SonarQube</span><span class="chip">Twistlock</span><span class="chip">Checkov</span><span class="chip">Veracode</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Databases &amp; migration</div>
+      <div class="chips">
+        <span class="chip">MySQL</span><span class="chip">Aurora DB</span><span class="chip">MongoDB</span>
+        <span class="chip">DocumentDB</span><span class="chip">Cassandra</span><span class="chip">AWS DMS</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Testing, SCM &amp; other</div>
+      <div class="chips">
+        <span class="chip">JIRA</span><span class="chip">JMeter</span><span class="chip">Postman</span><span class="chip">Newman</span>
+        <span class="chip">GitLab</span><span class="chip">Bitbucket</span><span class="chip">GitHub</span>
+        <span class="chip">YAML</span><span class="chip">Jq</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <h2>Education</h2>
+    <div class="edu-card">
+      <div class="edu-degree">Master of Science, Engineering Management and Leadership</div>
+      <div class="edu-school">Santa Clara University</div>
+      <div class="edu-date">Sept 2017 — Dec 2019</div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2>Get in touch</h2>
+    <p class="prose">Currently based in the US and open to relocating for the right Senior DevOps Engineer role — wherever that takes me. Open to a conversation.</p>
+    <div class="contact-grid">
+      <a class="contact-item" href="mailto:muhammadh.syed.devops@gmail.com">muhammadh.syed.devops@gmail.com</a>
+      <a class="contact-item" href="tel:+16692786874">669-278-6874</a>
+      <a class="contact-item" href="https://www.linkedin.com/in/muhammadh-abubacker/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="contact-item" href="https://github.com/Muhammadh1994" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="foot-note">last updated 2026</div>
+  </div>
+</footer>
+
+<script>
+  // Personalize relocation status based on visitor's location
+  fetch('https://ipapi.co/json/')
+    .then(res => res.json())
+    .then(data => {
+      const el = document.getElementById('reloc-text');
+      if (data && data.country_name && el) {
+        el.textContent = 'open to relocating to ' + data.country_name;
+      }
+    })
+    .catch(() => { /* keep default text if lookup fails */ });
+
+  window.addEventListener('load', () => {
+    const stages = document.querySelectorAll('#pipeline .stage');
+    const tracks = document.querySelectorAll('#pipeline .track .fill');
+    let i = 0;
+    function step(){
+      if(i >= stages.length) return;
+      stages[i].classList.add('lit');
+      if(tracks[i-1]) tracks[i-1].style.width = '100%';
+      i++;
+      setTimeout(step, 450);
+    }
+    setTimeout(step, 300);
+  });
+</script>
+
+</body>
+</html>
