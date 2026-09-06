@@ -209,10 +209,75 @@
   h2{
     font-size:26px;
     font-weight:600;
+    margin-bottom:12px;
+  }
+  .section-hint{
+    color:var(--muted);
+    font-size:14px;
     margin-bottom:36px;
   }
 
+  /* SKILLS */
+  .skill-group{ margin-bottom:28px; }
+  .skill-group:last-child{ margin-bottom:0; }
+  .skill-cat{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  .chips{
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  .chip{
+    font-size:13px;
+    padding:6px 12px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    color:#C7D1DB;
+    background:var(--panel);
+    cursor:pointer;
+    transition:all .15s ease;
+    user-select:none;
+  }
+  .chip:hover{
+    border-color:var(--accent);
+    color:var(--text);
+  }
+  .chip.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#0F1720;
+    font-weight:500;
+  }
+
   /* EXPERIENCE - commit timeline */
+  .filter-banner{
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    background:var(--panel);
+    border:1px solid var(--accent-dim);
+    border-radius:8px;
+    padding:12px 18px;
+    margin-bottom:32px;
+    font-size:14px;
+  }
+  .filter-banner span{ color:var(--accent); font-family:var(--mono); font-size:13px; }
+  .filter-clear-btn{
+    font-family:var(--sans);
+    font-size:13px;
+    background:none;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:6px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .filter-clear-btn:hover{ color:var(--text); border-color:var(--accent); }
+
   .timeline{
     position:relative;
     padding-left:28px;
@@ -259,33 +324,17 @@
     font-size:15px;
     color:#C7D1DB;
     max-width:680px;
+    transition:opacity .25s ease;
   }
   .role li::before{
     content:'—';
     position:absolute; left:0;
     color:var(--muted);
   }
-
-  /* SKILLS */
-  .skill-group{ margin-bottom:28px; }
-  .skill-group:last-child{ margin-bottom:0; }
-  .skill-cat{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--muted);
-    margin-bottom:10px;
-  }
-  .chips{
-    display:flex; flex-wrap:wrap; gap:8px;
-  }
-  .chip{
-    font-size:13px;
-    padding:6px 12px;
-    border:1px solid var(--border);
-    border-radius:6px;
-    color:#C7D1DB;
-    background:var(--panel);
-  }
+  .role li.dim{ opacity:0.25; }
+  .role li.match::before{ content:'▸'; color:var(--accent); }
+  .role li.match{ color:var(--text); }
+  .role li.hidden-extra{ display:none; }
 
   /* EDUCATION */
   .edu-card{
@@ -333,6 +382,7 @@
     .pipeline{ display:none; }
     .navlinks{ display:none; }
     header.hero{ padding:64px 0 48px; }
+    .filter-banner{ flex-direction:column; align-items:flex-start; }
   }
 </style>
 </head>
@@ -342,8 +392,8 @@
   <div class="wrap">
     <div class="brand">MJA</div>
     <div class="navlinks">
-      <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
       <a href="#education">Education</a>
       <a href="#contact">Contact</a>
     </div>
@@ -399,9 +449,187 @@
   </div>
 </section>
 
+<section id="skills">
+  <div class="wrap">
+    <h2>Skills</h2>
+    <p class="section-hint">Click a skill to see where I've actually used it below — including a few points not shown by default.</p>
+
+    <div class="skill-group">
+      <div class="skill-cat">Cloud</div>
+      <div class="chips">
+        <span class="chip" data-tag="ec2">EC2</span>
+        <span class="chip" data-tag="auto-scaling">Auto Scaling</span>
+        <span class="chip" data-tag="s3">S3</span>
+        <span class="chip" data-tag="ecr">ECR</span>
+        <span class="chip" data-tag="eks">EKS</span>
+        <span class="chip" data-tag="lambda">Lambda</span>
+        <span class="chip" data-tag="step-functions">Step Functions</span>
+        <span class="chip" data-tag="ses">SES</span>
+        <span class="chip" data-tag="route53">Route53</span>
+        <span class="chip" data-tag="vpc">VPC</span>
+        <span class="chip" data-tag="subnets">Subnets</span>
+        <span class="chip" data-tag="load-balancers">Load Balancers</span>
+        <span class="chip" data-tag="sqs">SQS</span>
+        <span class="chip" data-tag="sns">SNS</span>
+        <span class="chip" data-tag="rds">RDS</span>
+        <span class="chip" data-tag="iam">IAM</span>
+        <span class="chip" data-tag="azure">Azure</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Automation &amp; scripting</div>
+      <div class="chips">
+        <span class="chip" data-tag="python">Python (Boto3)</span>
+        <span class="chip" data-tag="shell">Shell</span>
+        <span class="chip" data-tag="ansible">Ansible</span>
+        <span class="chip" data-tag="kiro">Kiro (AI coding agent)</span>
+        <span class="chip" data-tag="multi-agent-systems">Multi-agent systems</span>
+        <span class="chip" data-tag="mcp">MCP</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Containers &amp; orchestration</div>
+      <div class="chips">
+        <span class="chip" data-tag="docker">Docker</span>
+        <span class="chip" data-tag="kubernetes">Kubernetes</span>
+        <span class="chip" data-tag="eks">EKS</span>
+        <span class="chip" data-tag="helm">Helm</span>
+        <span class="chip" data-tag="helmfiles">HelmFiles</span>
+        <span class="chip" data-tag="argocd">Argo CD</span>
+        <span class="chip" data-tag="kops">KOPS</span>
+        <span class="chip" data-tag="cluster-api">Cluster API</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Infrastructure as code</div>
+      <div class="chips">
+        <span class="chip" data-tag="terraform">Terraform</span>
+        <span class="chip" data-tag="cloudformation">CloudFormation</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">CI/CD</div>
+      <div class="chips">
+        <span class="chip" data-tag="jenkins">Jenkins</span>
+        <span class="chip" data-tag="gitlab-cicd">GitLab CI/CD</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Web &amp; application servers</div>
+      <div class="chips">
+        <span class="chip" data-tag="tomcat">Tomcat</span>
+        <span class="chip" data-tag="nginx">Nginx</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Monitoring &amp; observability</div>
+      <div class="chips">
+        <span class="chip" data-tag="splunk">Splunk</span>
+        <span class="chip" data-tag="prometheus">Prometheus</span>
+        <span class="chip" data-tag="grafana">Grafana</span>
+        <span class="chip" data-tag="datadog">Datadog</span>
+        <span class="chip" data-tag="rancher">Rancher</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Security tools</div>
+      <div class="chips">
+        <span class="chip" data-tag="sonarqube">SonarQube</span>
+        <span class="chip" data-tag="twistlock">Twistlock</span>
+        <span class="chip" data-tag="checkov">Checkov</span>
+        <span class="chip" data-tag="veracode">Veracode</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Testing &amp; ticketing</div>
+      <div class="chips">
+        <span class="chip" data-tag="jira">JIRA</span>
+        <span class="chip" data-tag="jmeter">JMeter</span>
+        <span class="chip" data-tag="postman">Postman</span>
+        <span class="chip" data-tag="newman">Newman</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Databases &amp; migration</div>
+      <div class="chips">
+        <span class="chip" data-tag="mysql">MySQL</span>
+        <span class="chip" data-tag="aurora">Aurora DB</span>
+        <span class="chip" data-tag="mongodb">MongoDB</span>
+        <span class="chip" data-tag="documentdb">DocumentDB</span>
+        <span class="chip" data-tag="cassandra">Cassandra</span>
+        <span class="chip" data-tag="aws-dms">AWS DMS</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Build &amp; release</div>
+      <div class="chips">
+        <span class="chip" data-tag="maven">Maven</span>
+        <span class="chip" data-tag="kaniko">Kaniko</span>
+        <span class="chip" data-tag="jfrog">JFrog Artifactory</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">SCM</div>
+      <div class="chips">
+        <span class="chip" data-tag="gitlab">GitLab</span>
+        <span class="chip" data-tag="bitbucket">Bitbucket</span>
+        <span class="chip" data-tag="github">GitHub</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Other</div>
+      <div class="chips">
+        <span class="chip" data-tag="json">JSON</span>
+        <span class="chip" data-tag="jq">Jq</span>
+        <span class="chip" data-tag="yaml">YAML</span>
+        <span class="chip" data-tag="yq">yq</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Also demonstrated in experience — not in the formal skills list above</div>
+      <div class="chips">
+        <span class="chip" data-tag="keda">KEDA</span>
+        <span class="chip" data-tag="kafka">Kafka</span>
+        <span class="chip" data-tag="vault">HashiCorp Vault</span>
+        <span class="chip" data-tag="crowdstrike">CrowdStrike Falcon</span>
+        <span class="chip" data-tag="sentinelone">SentinelOne</span>
+        <span class="chip" data-tag="instana">Instana</span>
+        <span class="chip" data-tag="kerberos">Kerberos</span>
+        <span class="chip" data-tag="sasl-ssl">SASL_SSL</span>
+        <span class="chip" data-tag="java">Java</span>
+        <span class="chip" data-tag="spring-boot">Spring Boot</span>
+        <span class="chip" data-tag="jwt">JWT</span>
+        <span class="chip" data-tag="rpm-yum">RPM/YUM</span>
+        <span class="chip" data-tag="lvm">LVM</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <section id="experience">
   <div class="wrap">
     <h2>Experience</h2>
+    <p class="section-hint">Every bullet below is tagged — click any skill above to filter to relevant work. Some points only appear once their skill is selected, to keep the default view focused.</p>
+
+    <div class="filter-banner" id="filter-banner">
+      <span id="filter-banner-text"></span>
+      <button class="filter-clear-btn" id="filter-clear">Clear filter</button>
+    </div>
+
     <div class="timeline">
 
       <div class="role">
@@ -409,14 +637,34 @@
         <div class="role-title">DevOps Engineer</div>
         <div class="role-org">Stellar IT Solutions · Client: Charter Communications</div>
         <ul>
-          <li>Designed an event-driven, serverless workflow using Lambda, Step Functions, and SES to automate EKS node AMI compliance across clusters, replacing a fully manual audit process.</li>
-          <li>Built a multi-agent AI system that pulls live Kubernetes data through a Rancher MCP server to answer natural-language operational questions and generate reports, cutting manual investigation time.</li>
-          <li>Led the migration of MongoDB to Amazon DocumentDB using AWS DMS, including schema validation, cutover planning, and the supporting Terraform infrastructure.</li>
-          <li>Migrated CI/CD from Jenkins to GitLab and built an end-to-end pipeline for Java and Python applications using Maven and Kaniko — cutting feature turnaround time by 50%.</li>
-          <li>Drove Kubernetes cost optimization by dynamically scaling pods on CPU, memory, and queue-lag metrics with Prometheus, KEDA, and Datadog.</li>
-          <li>Led cluster upgrades from Kubernetes 1.10 to 1.21 and onward to Amazon EKS, implementing IAM Service Accounts (IRSA) to strengthen infrastructure security.</li>
-          <li>Replaced a Vault-based configuration approach with a GitLab CI/CD and Helm-driven ConfigMap solution, and standardized deployments with template-driven Helm charts.</li>
-          <li>Owned all build and deploy pipelines for the team, defining development, test, release, and support processes end-to-end.</li>
+          <li data-tags="lambda step-functions ses eks cluster-api terraform">Designed an event-driven, serverless workflow using Lambda, Step Functions, and SES to automate EKS node AMI compliance — scanning clusters, emailing owners, and automatically updating the corresponding Cluster API (CAPI) and Terraform configs based on their replies.</li>
+          <li data-tags="kiro lambda ses s3 python">Used the Kiro AI coding agent to provision the supporting AWS infrastructure (Lambda, SES, S3) directly from natural-language prompts instead of hand-written IaC, making the setup reproducible by any team member.</li>
+          <li data-tags="multi-agent-systems mcp rancher kubernetes kiro">Built a multi-agent AI system for Kubernetes operations — a codebase-aware agent built with Kiro, a Kubernetes agent pulling live cluster configs via the Rancher MCP server, and an orchestrator that answers natural-language ops questions and generates reports.</li>
+          <li data-tags="step-functions lambda eks kubernetes">Implemented a downstream Step Function that waits for node replacement to complete, then triggers a validation Lambda to run automated sanity checks across all namespaces — reducing manual verification after every AMI refresh.</li>
+          <li data-tags="mongodb documentdb aws-dms">Led the migration of MongoDB to Amazon DocumentDB using AWS DMS, including schema validation, cutover planning, and the supporting Terraform infrastructure.</li>
+          <li class="extra hidden-extra" data-tags="terraform subnets aws-dms documentdb mongodb">Built the supporting migration infrastructure in Terraform, including the DB subnet group, security groups, DocumentDB cluster, and DMS source/target endpoints and replication task.</li>
+          <li class="extra hidden-extra" data-tags="route53">Provisioned Route53 DNS records for every new cluster and database, ensuring consistent, discoverable service endpoints across environments.</li>
+          <li class="extra hidden-extra" data-tags="jenkins tomcat sonarqube veracode twistlock">Developed Jenkins pipelines for Tomcat-based applications, incorporating SonarQube code coverage, Veracode code quality assessment, and Twistlock image scanning.</li>
+          <li data-tags="jenkins gitlab-cicd maven kaniko ecr">Migrated CI/CD from Jenkins to GitLab and built an end-to-end pipeline for Java and Python applications using Maven and Kaniko to build and push images to ECR — cutting feature turnaround time by 50%.</li>
+          <li class="extra hidden-extra" data-tags="docker kaniko ecr twistlock">Wrote multi-stage Dockerfiles to produce lean, production-ready images for Java and Python services — separating build and runtime layers to reduce final image size and shrink the attack surface flagged by Twistlock scans.</li>
+          <li class="extra hidden-extra" data-tags="argocd helm gitlab-cicd">Migrated deployments to a GitOps model with Argo CD — updating CI pipelines to push manifest changes to a dedicated Argo branch, and using Argo CD to manage and sync Helm chart deployments across clusters.</li>
+          <li data-tags="gitlab-cicd helm vault">Replaced a Vault-based configuration approach with a GitLab CI/CD and Helm-driven ConfigMap solution, and standardized deployments with template-driven Helm charts.</li>
+          <li class="extra hidden-extra" data-tags="helm kubernetes">Transitioned deployments from raw Kubernetes manifests to Helm, improving deployment agility and flexibility.</li>
+          <li data-tags="prometheus datadog kubernetes keda kafka">Drove Kubernetes cost optimization by dynamically scaling pods on CPU, memory, and queue-lag metrics from Kafka using Prometheus, KEDA, and Datadog.</li>
+          <li data-tags="kubernetes keda">Ran a proof of concept recommending Kubernetes CronJobs and KEDA CronJobs to proactively scale pods ahead of peak traffic hours.</li>
+          <li data-tags="splunk">Monitored application health daily via Splunk and built Splunk dashboards to ensure high availability and reliability for end customers.</li>
+          <li data-tags="kubernetes eks iam">Led cluster upgrades from Kubernetes 1.10 to 1.21 and onward to Amazon EKS, implementing IAM Service Accounts (IRSA) to strengthen infrastructure security.</li>
+          <li class="extra hidden-extra" data-tags="bitbucket gitlab">Migrated code repositories from Bitbucket to GitLab to consolidate code and pipelines in a single SCM.</li>
+          <li class="extra hidden-extra" data-tags="ansible ec2 cassandra crowdstrike sentinelone">Wrote Ansible playbooks to deploy CrowdStrike Falcon and SentinelOne agents across EC2 fleets, and to provision Cassandra nodes on AWS.</li>
+          <li class="extra hidden-extra" data-tags="helm kubernetes">Built a Helm chart for a DaemonSet to deploy security tooling across Kubernetes clusters.</li>
+          <li class="extra hidden-extra" data-tags="helmfiles vault aurora">Built HelmFiles to jointly deploy multiple Helm charts for a configuration sidecar using HashiCorp Vault, backed by Aurora MySQL, for centralized service configuration.</li>
+          <li class="extra hidden-extra" data-tags="kops shell gitlab-cicd checkov rancher instana">Automated KOPS cluster provisioning via shell scripts in GitLab pipelines, integrated Checkov for IaC security scanning, and registered new clusters with Rancher and Instana.</li>
+          <li class="extra hidden-extra" data-tags="kafka aurora mongodb cassandra kerberos sasl-ssl">Managed production databases and messaging systems — Kafka, Aurora DB, MongoDB, and Cassandra — securing Kafka with Kerberos and SASL_SSL authentication for real-time services.</li>
+          <li class="extra hidden-extra" data-tags="python vault s3 gitlab-cicd aurora grafana">Wrote Python scripts to migrate secrets from S3 to HashiCorp Vault and to monitor GitLab CI/CD pipeline data into Aurora MySQL, with Grafana dashboards built on top for visibility.</li>
+          <li class="extra hidden-extra" data-tags="postman jmeter java spring-boot jwt newman">Supported functional and performance testing with Postman and JMeter, and developed a Java/Spring Boot backend service to encrypt/decrypt data via JWT, automating API testing with Newman.</li>
+          <li class="extra hidden-extra" data-tags="terraform cloudformation ec2 python">Automated AWS infrastructure provisioning and EC2 start/stop scheduling for cost optimization using Terraform and CloudFormation, with Python (Boto3) scripts to inventory AWS resources.</li>
+          <li data-tags="jenkins gitlab-cicd">Owned all build and deploy pipelines for the team, defining development, test, release, and support processes end-to-end.</li>
+          <li class="extra hidden-extra" data-tags="helm kubernetes">Built generalized, template-driven Helm charts with flow control to standardize deployment across all applications and CronJobs, implementing safe pod termination via PreStop lifecycle hooks.</li>
         </ul>
       </div>
 
@@ -425,9 +673,10 @@
         <div class="role-title">Software Engineer</div>
         <div class="role-org">SetupBoxs</div>
         <ul>
-          <li>Developed internal RESTful web service APIs in Java, gaining hands-on backend development experience.</li>
-          <li>Monitored infrastructure for SOP compliance, tracking CPU, memory, disk, and swap usage to prevent performance issues.</li>
-          <li>Ensured MySQL high availability and configured backup instances on AWS RDS.</li>
+          <li data-tags="java">Developed internal RESTful web service APIs in Java, gaining hands-on backend development experience.</li>
+          <li data-tags="">Monitored infrastructure for SOP compliance, tracking CPU, memory, disk, and swap usage to prevent performance issues.</li>
+          <li data-tags="mysql rds">Ensured MySQL high availability and configured backup instances on AWS RDS.</li>
+          <li class="extra hidden-extra" data-tags="ansible rpm-yum lvm">Managed Linux package installation (RPM, YUM) and LVM provisioning, and wrote Ansible playbooks to automate routine system updates.</li>
         </ul>
       </div>
 
@@ -435,84 +684,6 @@
   </div>
 </section>
 
-<section id="skills">
-  <div class="wrap">
-    <h2>Skills</h2>
-
-    <div class="skill-group">
-      <div class="skill-cat">Cloud</div>
-      <div class="chips">
-        <span class="chip">AWS (EC2, EKS, Lambda, Step Functions, SES, VPC, RDS, IAM, SQS, SNS)</span>
-        <span class="chip">Azure</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-cat">Containers &amp; orchestration</div>
-      <div class="chips">
-        <span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">EKS</span>
-        <span class="chip">Helm</span><span class="chip">HelmFiles</span><span class="chip">Argo CD</span>
-        <span class="chip">KOPS</span><span class="chip">Cluster API</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-cat">Infrastructure as code</div>
-      <div class="chips">
-        <span class="chip">Terraform</span><span class="chip">CloudFormation</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-cat">CI/CD &amp; build</div>
-      <div class="chips">
-        <span class="chip">Jenkins</span><span class="chip">GitLab CI/CD</span>
-        <span class="chip">Maven</span><span class="chip">Kaniko</span><span class="chip">JFrog Artifactory</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-cat">Automation &amp; scripting</div>
-      <div class="chips">
-        <span class="chip">Python (Boto3)</span><span class="chip">Shell</span><span class="chip">Ansible</span>
-        <span class="chip">Kiro (AI coding agent)</span><span class="chip">Multi-agent systems</span><span class="chip">MCP</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-cat">Monitoring &amp; observability</div>
-      <div class="chips">
-        <span class="chip">Splunk</span><span class="chip">Prometheus</span><span class="chip">Grafana</span>
-        <span class="chip">Datadog</span><span class="chip">Rancher</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-cat">Security</div>
-      <div class="chips">
-        <span class="chip">SonarQube</span><span class="chip">Twistlock</span><span class="chip">Checkov</span><span class="chip">Veracode</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-cat">Databases &amp; migration</div>
-      <div class="chips">
-        <span class="chip">MySQL</span><span class="chip">Aurora DB</span><span class="chip">MongoDB</span>
-        <span class="chip">DocumentDB</span><span class="chip">Cassandra</span><span class="chip">AWS DMS</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-cat">Testing, SCM &amp; other</div>
-      <div class="chips">
-        <span class="chip">JIRA</span><span class="chip">JMeter</span><span class="chip">Postman</span><span class="chip">Newman</span>
-        <span class="chip">GitLab</span><span class="chip">Bitbucket</span><span class="chip">GitHub</span>
-        <span class="chip">YAML</span><span class="chip">Jq</span>
-      </div>
-    </div>
-
-  </div>
-</section>
 
 <section id="education">
   <div class="wrap">
@@ -563,6 +734,72 @@
       setTimeout(step, 450);
     }
     setTimeout(step, 300);
+  });
+
+  // Skill-to-experience filtering
+  document.addEventListener('DOMContentLoaded', () => {
+    const chips = document.querySelectorAll('.chip[data-tag]');
+    const bullets = document.querySelectorAll('.role li[data-tags]');
+    const banner = document.getElementById('filter-banner');
+    const bannerText = document.getElementById('filter-banner-text');
+    const clearBtn = document.getElementById('filter-clear');
+    let activeTag = null;
+
+    function clearFilter(){
+      activeTag = null;
+      chips.forEach(c => c.classList.remove('active'));
+      bullets.forEach(li => {
+        li.classList.remove('dim','match');
+        if(li.classList.contains('extra')) li.classList.add('hidden-extra');
+      });
+      banner.style.display = 'none';
+    }
+
+    function applyFilter(tag, label){
+      activeTag = tag;
+      chips.forEach(c => c.classList.toggle('active', c.dataset.tag === tag));
+      let anyMatch = false;
+      let revealedExtra = false;
+      bullets.forEach(li => {
+        const tags = (li.dataset.tags || '').split(' ').filter(Boolean);
+        const isExtra = li.classList.contains('extra');
+        if(tags.includes(tag)){
+          li.classList.add('match');
+          li.classList.remove('dim');
+          if(isExtra){
+            li.classList.remove('hidden-extra');
+            revealedExtra = true;
+          }
+          anyMatch = true;
+        } else {
+          li.classList.add('dim');
+          li.classList.remove('match');
+          if(isExtra) li.classList.add('hidden-extra');
+        }
+      });
+      if(!anyMatch){
+        bannerText.textContent = 'No bullet currently describes ' + label + ' directly, though it may support the work above.';
+      } else if(revealedExtra){
+        bannerText.textContent = 'Showing experience involving: ' + label + ' (includes a point not shown by default)';
+      } else {
+        bannerText.textContent = 'Showing experience involving: ' + label;
+      }
+      banner.style.display = 'flex';
+      document.getElementById('experience').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const tag = chip.dataset.tag;
+        if(activeTag === tag){
+          clearFilter();
+        } else {
+          applyFilter(tag, chip.textContent.trim());
+        }
+      });
+    });
+
+    clearBtn.addEventListener('click', clearFilter);
   });
 </script>
 
