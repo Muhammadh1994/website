@@ -55,14 +55,17 @@
     color:var(--accent);
     letter-spacing:0.02em;
   }
-  .navlinks{ display:flex; gap:28px; }
+  .navlinks{ display:flex; gap:32px; }
   .navlinks a{
     font-size:14px;
-    color:var(--muted);
+    font-weight:600;
+    color:var(--text);
     text-decoration:none;
-    transition:color .15s ease;
+    padding-bottom:4px;
+    border-bottom:2px solid transparent;
+    transition:color .15s ease, border-color .15s ease;
   }
-  .navlinks a:hover{ color:var(--text); }
+  .navlinks a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
 
   /* HERO */
   header.hero{
@@ -252,32 +255,6 @@
   }
 
   /* EXPERIENCE - commit timeline */
-  .filter-banner{
-    display:none;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    background:var(--panel);
-    border:1px solid var(--accent-dim);
-    border-radius:8px;
-    padding:12px 18px;
-    margin-bottom:32px;
-    font-size:14px;
-  }
-  .filter-banner span{ color:var(--accent); font-family:var(--mono); font-size:13px; }
-  .filter-clear-btn{
-    font-family:var(--sans);
-    font-size:13px;
-    background:none;
-    border:1px solid var(--border);
-    color:var(--muted);
-    padding:6px 12px;
-    border-radius:6px;
-    cursor:pointer;
-    transition:all .15s ease;
-  }
-  .filter-clear-btn:hover{ color:var(--text); border-color:var(--accent); }
-
   .timeline{
     position:relative;
     padding-left:28px;
@@ -336,6 +313,44 @@
   .role li.match{ color:var(--text); }
   .role li.hidden-extra{ display:none; }
 
+  .role ul.extra-bullets{
+    list-style:none;
+    display:none;
+    flex-direction:column;
+    gap:11px;
+    margin-top:11px;
+  }
+  .role ul.extra-bullets.show{ display:flex; }
+  .extra-bullets li{
+    position:relative;
+    padding-left:18px;
+    font-size:15px;
+    color:#C7D1DB;
+    max-width:680px;
+  }
+  .extra-bullets li::before{
+    content:'—';
+    position:absolute; left:0;
+    color:var(--muted);
+  }
+
+  .read-more-btn{
+    margin-top:16px;
+    background:none;
+    border:1px solid var(--border);
+    color:var(--accent);
+    font-family:var(--sans);
+    font-size:13px;
+    font-weight:600;
+    padding:8px 16px;
+    border-radius:100px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .read-more-btn:hover{ border-color:var(--accent); background:rgba(95,217,164,0.08); }
+  .read-more-btn .rm-count{ color:var(--muted); font-weight:400; }
+  .read-more-btn:hover .rm-count{ color:var(--accent); }
+
   /* EDUCATION */
   .edu-card{
     border:1px solid var(--border);
@@ -380,9 +395,86 @@
   @media (max-width: 640px){
     .stat-grid{ grid-template-columns:repeat(2, 1fr); }
     .pipeline{ display:none; }
-    .navlinks{ display:none; }
+    .navlinks{ gap:14px; }
+    .navlinks a{ font-size:12px; }
     header.hero{ padding:64px 0 48px; }
-    .filter-banner{ flex-direction:column; align-items:flex-start; }
+    .skill-drawer{ width:100%; max-width:100%; }
+  }
+
+  /* SKILL DRAWER */
+  .drawer-overlay{
+    position:fixed; inset:0;
+    background:rgba(6,10,14,0.6);
+    opacity:0; pointer-events:none;
+    transition:opacity .3s ease;
+    z-index:200;
+  }
+  .drawer-overlay.open{ opacity:1; pointer-events:auto; }
+
+  .skill-drawer{
+    position:fixed; top:0; right:-440px;
+    width:420px; max-width:92vw; height:100vh;
+    background:var(--panel);
+    border-left:1px solid var(--border);
+    z-index:201;
+    transition:right .35s cubic-bezier(.2,.8,.2,1);
+    overflow-y:auto;
+    padding:28px 26px 60px;
+  }
+  .skill-drawer.open{ right:0; }
+
+  .drawer-header{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    gap:16px;
+    margin-bottom:6px;
+  }
+  .drawer-title{
+    font-size:21px;
+    font-weight:600;
+  }
+  .drawer-close{
+    flex-shrink:0;
+    width:32px; height:32px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--panel-alt);
+    color:var(--muted);
+    font-size:16px;
+    line-height:1;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .drawer-close:hover{ color:var(--text); border-color:var(--accent); }
+
+  .drawer-sub{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:28px;
+  }
+
+  .drawer-item{
+    border-left:2px solid var(--accent);
+    padding:2px 0 4px 16px;
+    margin-bottom:22px;
+  }
+  .drawer-item .drawer-role{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--accent);
+    margin-bottom:5px;
+  }
+  .drawer-item .drawer-text{
+    font-size:14.5px;
+    color:#C7D1DB;
+    line-height:1.6;
+  }
+  .drawer-item.inferred{ border-left-color:var(--warm); }
+  .drawer-item.inferred .drawer-role{ color:var(--warm); }
+  .drawer-empty{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.6;
   }
 </style>
 </head>
@@ -452,7 +544,7 @@
 <section id="skills">
   <div class="wrap">
     <h2>Skills</h2>
-    <p class="section-hint">Click a skill to see where I've actually used it below — including a few points not shown by default.</p>
+    <p class="section-hint">Click any skill to see exactly where I've used it.</p>
 
     <div class="skill-group">
       <div class="skill-cat">Cloud</div>
@@ -623,13 +715,6 @@
 <section id="experience">
   <div class="wrap">
     <h2>Experience</h2>
-    <p class="section-hint">Every bullet below is tagged — click any skill above to filter to relevant work. Some points only appear once their skill is selected, to keep the default view focused.</p>
-
-    <div class="filter-banner" id="filter-banner">
-      <span id="filter-banner-text"></span>
-      <button class="filter-clear-btn" id="filter-clear">Clear filter</button>
-    </div>
-
     <div class="timeline">
 
       <div class="role">
@@ -637,35 +722,40 @@
         <div class="role-title">DevOps Engineer</div>
         <div class="role-org">Stellar IT Solutions · Client: Charter Communications</div>
         <ul>
-          <li data-tags="lambda step-functions ses eks cluster-api terraform">Designed an event-driven, serverless workflow using Lambda, Step Functions, and SES to automate EKS node AMI compliance — scanning clusters, emailing owners, and automatically updating the corresponding Cluster API (CAPI) and Terraform configs based on their replies.</li>
-          <li data-tags="kiro lambda ses s3 python">Used the Kiro AI coding agent to provision the supporting AWS infrastructure (Lambda, SES, S3) directly from natural-language prompts instead of hand-written IaC, making the setup reproducible by any team member.</li>
-          <li data-tags="multi-agent-systems mcp rancher kubernetes kiro">Built a multi-agent AI system for Kubernetes operations — a codebase-aware agent built with Kiro, a Kubernetes agent pulling live cluster configs via the Rancher MCP server, and an orchestrator that answers natural-language ops questions and generates reports.</li>
-          <li data-tags="step-functions lambda eks kubernetes">Implemented a downstream Step Function that waits for node replacement to complete, then triggers a validation Lambda to run automated sanity checks across all namespaces — reducing manual verification after every AMI refresh.</li>
-          <li data-tags="mongodb documentdb aws-dms">Led the migration of MongoDB to Amazon DocumentDB using AWS DMS, including schema validation, cutover planning, and the supporting Terraform infrastructure.</li>
-          <li class="extra hidden-extra" data-tags="terraform subnets aws-dms documentdb mongodb">Built the supporting migration infrastructure in Terraform, including the DB subnet group, security groups, DocumentDB cluster, and DMS source/target endpoints and replication task.</li>
-          <li class="extra hidden-extra" data-tags="route53">Provisioned Route53 DNS records for every new cluster and database, ensuring consistent, discoverable service endpoints across environments.</li>
-          <li class="extra hidden-extra" data-tags="jenkins tomcat sonarqube veracode twistlock">Developed Jenkins pipelines for Tomcat-based applications, incorporating SonarQube code coverage, Veracode code quality assessment, and Twistlock image scanning.</li>
-          <li data-tags="jenkins gitlab-cicd maven kaniko ecr">Migrated CI/CD from Jenkins to GitLab and built an end-to-end pipeline for Java and Python applications using Maven and Kaniko to build and push images to ECR — cutting feature turnaround time by 50%.</li>
-          <li class="extra hidden-extra" data-tags="docker kaniko ecr twistlock">Wrote multi-stage Dockerfiles to produce lean, production-ready images for Java and Python services — separating build and runtime layers to reduce final image size and shrink the attack surface flagged by Twistlock scans.</li>
-          <li class="extra hidden-extra" data-tags="argocd helm gitlab-cicd">Migrated deployments to a GitOps model with Argo CD — updating CI pipelines to push manifest changes to a dedicated Argo branch, and using Argo CD to manage and sync Helm chart deployments across clusters.</li>
-          <li data-tags="gitlab-cicd helm vault">Replaced a Vault-based configuration approach with a GitLab CI/CD and Helm-driven ConfigMap solution, and standardized deployments with template-driven Helm charts.</li>
-          <li class="extra hidden-extra" data-tags="helm kubernetes">Transitioned deployments from raw Kubernetes manifests to Helm, improving deployment agility and flexibility.</li>
-          <li data-tags="prometheus datadog kubernetes keda kafka">Drove Kubernetes cost optimization by dynamically scaling pods on CPU, memory, and queue-lag metrics from Kafka using Prometheus, KEDA, and Datadog.</li>
-          <li data-tags="kubernetes keda">Ran a proof of concept recommending Kubernetes CronJobs and KEDA CronJobs to proactively scale pods ahead of peak traffic hours.</li>
-          <li data-tags="splunk">Monitored application health daily via Splunk and built Splunk dashboards to ensure high availability and reliability for end customers.</li>
-          <li data-tags="kubernetes eks iam">Led cluster upgrades from Kubernetes 1.10 to 1.21 and onward to Amazon EKS, implementing IAM Service Accounts (IRSA) to strengthen infrastructure security.</li>
-          <li class="extra hidden-extra" data-tags="bitbucket gitlab">Migrated code repositories from Bitbucket to GitLab to consolidate code and pipelines in a single SCM.</li>
-          <li class="extra hidden-extra" data-tags="ansible ec2 cassandra crowdstrike sentinelone">Wrote Ansible playbooks to deploy CrowdStrike Falcon and SentinelOne agents across EC2 fleets, and to provision Cassandra nodes on AWS.</li>
-          <li class="extra hidden-extra" data-tags="helm kubernetes">Built a Helm chart for a DaemonSet to deploy security tooling across Kubernetes clusters.</li>
-          <li class="extra hidden-extra" data-tags="helmfiles vault aurora">Built HelmFiles to jointly deploy multiple Helm charts for a configuration sidecar using HashiCorp Vault, backed by Aurora MySQL, for centralized service configuration.</li>
-          <li class="extra hidden-extra" data-tags="kops shell gitlab-cicd checkov rancher instana">Automated KOPS cluster provisioning via shell scripts in GitLab pipelines, integrated Checkov for IaC security scanning, and registered new clusters with Rancher and Instana.</li>
-          <li class="extra hidden-extra" data-tags="kafka aurora mongodb cassandra kerberos sasl-ssl">Managed production databases and messaging systems — Kafka, Aurora DB, MongoDB, and Cassandra — securing Kafka with Kerberos and SASL_SSL authentication for real-time services.</li>
-          <li class="extra hidden-extra" data-tags="python vault s3 gitlab-cicd aurora grafana">Wrote Python scripts to migrate secrets from S3 to HashiCorp Vault and to monitor GitLab CI/CD pipeline data into Aurora MySQL, with Grafana dashboards built on top for visibility.</li>
-          <li class="extra hidden-extra" data-tags="postman jmeter java spring-boot jwt newman">Supported functional and performance testing with Postman and JMeter, and developed a Java/Spring Boot backend service to encrypt/decrypt data via JWT, automating API testing with Newman.</li>
-          <li class="extra hidden-extra" data-tags="terraform cloudformation ec2 python">Automated AWS infrastructure provisioning and EC2 start/stop scheduling for cost optimization using Terraform and CloudFormation, with Python (Boto3) scripts to inventory AWS resources.</li>
-          <li data-tags="jenkins gitlab-cicd">Owned all build and deploy pipelines for the team, defining development, test, release, and support processes end-to-end.</li>
-          <li class="extra hidden-extra" data-tags="helm kubernetes">Built generalized, template-driven Helm charts with flow control to standardize deployment across all applications and CronJobs, implementing safe pod termination via PreStop lifecycle hooks.</li>
+          <li>Designed an event-driven, serverless workflow using Lambda, Step Functions, and SES to automate EKS node AMI compliance — scanning clusters, emailing owners, and automatically updating the corresponding Cluster API (CAPI) and Terraform configs based on their replies.</li>
+          <li>Used the Kiro AI coding agent to provision the supporting AWS infrastructure (Lambda, SES, S3) directly from natural-language prompts instead of hand-written IaC, making the setup reproducible by any team member.</li>
+          <li>Built a multi-agent AI system for Kubernetes operations — a codebase-aware agent built with Kiro, a Kubernetes agent pulling live cluster configs via the Rancher MCP server, and an orchestrator that answers natural-language ops questions and generates reports.</li>
+          <li>Implemented a downstream Step Function that waits for node replacement to complete, then triggers a validation Lambda to run automated sanity checks across all namespaces — reducing manual verification after every AMI refresh.</li>
+          <li>Led the migration of MongoDB to Amazon DocumentDB using AWS DMS, including schema validation, cutover planning, and the supporting Terraform infrastructure.</li>
+          <li>Migrated CI/CD from Jenkins to GitLab and built an end-to-end pipeline for Java and Python applications using Maven and Kaniko to build and push images to ECR — cutting feature turnaround time by 50%.</li>
+          <li>Migrated deployments to a GitOps model with Argo CD — updating CI pipelines to push manifest changes to a dedicated Argo branch, and using Argo CD to manage and sync Helm chart deployments across clusters.</li>
+          <li>Drove Kubernetes cost optimization by dynamically scaling pods on CPU, memory, and queue-lag metrics from Kafka using Prometheus, KEDA, and Datadog.</li>
+          <li>Led cluster upgrades from Kubernetes 1.10 to 1.21 and onward to Amazon EKS, implementing IAM Service Accounts (IRSA) to strengthen infrastructure security.</li>
+          <li>Owned all build and deploy pipelines for the team, defining development, test, release, and support processes end-to-end.</li>
         </ul>
+
+        <ul class="extra-bullets" id="stellar-extra">
+          <li>Built the supporting migration infrastructure in Terraform, including the DB subnet group, security groups, DocumentDB cluster, DMS source and target endpoints, DMS replication engine, and DMS migration task.</li>
+          <li>Provisioned Route53 DNS records for every new cluster and database, ensuring consistent, discoverable service endpoints across environments.</li>
+          <li>Developed Jenkins pipelines for building and deploying Tomcat-based applications, incorporating code coverage analysis (SonarQube), code quality assessment (Veracode), and image scanning (Twistlock).</li>
+          <li>Wrote multi-stage Dockerfiles to produce lean, production-ready images for Java and Python services — separating build and runtime layers to reduce final image size and shrink the attack surface flagged by Twistlock scans.</li>
+          <li>Replaced a Vault-based configuration approach with a GitLab CI/CD pipeline and Helm chart-driven ConfigMap solution, improving simplicity and reliability; used a starter-chart approach to work around Helm's file-access limitations.</li>
+          <li>Transitioned deployments from raw Kubernetes manifests to Helm, improving deployment agility and flexibility.</li>
+          <li>Ran a proof of concept recommending Kubernetes CronJobs and KEDA CronJobs to proactively scale pods ahead of peak traffic hours.</li>
+          <li>Monitored application health daily via Splunk and built Splunk dashboards to ensure high availability and reliability for end customers.</li>
+          <li>Migrated code repositories from Bitbucket to GitLab to consolidate code and pipelines in a single SCM.</li>
+          <li>Wrote Ansible playbooks to deploy CrowdStrike Falcon and SentinelOne agents across EC2 fleets, and to provision Cassandra nodes on AWS.</li>
+          <li>Built a Helm chart for a DaemonSet to deploy security tooling across Kubernetes clusters.</li>
+          <li>Built HelmFiles to jointly deploy multiple Helm charts for a configuration sidecar using HashiCorp Vault (backed by Aurora MySQL) for centralized service configuration.</li>
+          <li>Automated KOPS cluster provisioning via shell scripts in GitLab pipelines, integrated Checkov for IaC security scanning, and added jobs to register new clusters with Rancher and Instana.</li>
+          <li>Managed production databases and messaging systems — Kafka, Aurora DB, MongoDB, and Cassandra — supporting core applications; secured Kafka with Kerberos and SASL_SSL authentication for real-time services.</li>
+          <li>Wrote Python scripts to migrate secrets from S3 to HashiCorp Vault and to monitor/log GitLab CI/CD pipeline data into Aurora MySQL, with Grafana dashboards built on top for pipeline visibility.</li>
+          <li>Supported functional and performance testing using Postman and JMeter during resourcing gaps; developed a Java/Spring Boot backend service to encrypt/decrypt data via JWT, wrote unit tests, and automated API testing with Newman.</li>
+          <li>Automated AWS infrastructure provisioning and EC2 start/stop scheduling for cost optimization using Terraform and CloudFormation; used Python (Boto3) to inventory AWS resources for cost management.</li>
+          <li>Built generalized, template-driven Helm charts with flow control to standardize deployment of all applications and CronJobs; implemented safe pod termination via PreStop lifecycle hooks.</li>
+          <li>Defined development, test, release, and support processes for DevOps operations, and mentored the team toward more efficient, stable CI/CD practices.</li>
+        </ul>
+        <button class="read-more-btn" data-target="stellar-extra" data-count="19">Read more <span class="rm-count">(+19 points)</span></button>
       </div>
 
       <div class="role">
@@ -673,16 +763,20 @@
         <div class="role-title">Software Engineer</div>
         <div class="role-org">SetupBoxs</div>
         <ul>
-          <li data-tags="java">Developed internal RESTful web service APIs in Java, gaining hands-on backend development experience.</li>
-          <li data-tags="">Monitored infrastructure for SOP compliance, tracking CPU, memory, disk, and swap usage to prevent performance issues.</li>
-          <li data-tags="mysql rds">Ensured MySQL high availability and configured backup instances on AWS RDS.</li>
-          <li class="extra hidden-extra" data-tags="ansible rpm-yum lvm">Managed Linux package installation (RPM, YUM) and LVM provisioning, and wrote Ansible playbooks to automate routine system updates.</li>
+          <li>Gathered and documented application requirements in collaboration with program staff, programmers, and planning/analysis teams.</li>
+          <li>Developed internal RESTful web service APIs in Java, gaining hands-on backend development experience.</li>
+          <li>Devised test plans, established protocols, and configured test environments to support the software testing process.</li>
+          <li>Monitored infrastructure for SOP compliance, tracking CPU, memory, disk, and swap usage to prevent performance issues.</li>
+          <li>Ensured high availability of MySQL servers and configured backup instances in AWS RDS.</li>
+          <li>Managed Linux package installation (RPM, YUM) and LVM provisioning; wrote Ansible playbooks to automate routine system updates.</li>
         </ul>
       </div>
 
     </div>
   </div>
 </section>
+
+
 
 
 <section id="education">
@@ -710,6 +804,17 @@
   </div>
 </footer>
 
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="skill-drawer" id="skill-drawer">
+  <div class="drawer-header">
+    <div class="drawer-title" id="drawer-title">Skill</div>
+    <button class="drawer-close" id="drawer-close">&times;</button>
+  </div>
+  <div class="drawer-sub" id="drawer-sub"></div>
+  <div id="drawer-body"></div>
+</div>
+
+
 <script>
   // Personalize relocation status based on visitor's location
   fetch('https://ipapi.co/json/')
@@ -736,70 +841,133 @@
     setTimeout(step, 300);
   });
 
-  // Skill-to-experience filtering
+  // ---- Skill -> experience dataset ----
+  // Every explicit bullet this skill genuinely appears in (verbatim or near-verbatim from the resume).
+  const STELLAR = 'Stellar IT Solutions · DevOps Engineer';
+  const SETUPBOXS = 'SetupBoxs · Software Engineer';
+  const PERSONAL = 'Personal / this site';
+
+  const BULLETS = [
+    { role: STELLAR, tags: ['lambda','step-functions','ses','eks','cluster-api','terraform','auto-scaling'], text: 'Designed an event-driven, serverless workflow using Lambda, Step Functions, and SES to automate EKS node AMI compliance — scanning clusters, emailing owners, and automatically updating the corresponding Cluster API (CAPI) and Terraform configs based on their replies.' },
+    { role: STELLAR, tags: ['kiro','lambda','ses','s3','python'], text: 'Used the Kiro AI coding agent to provision the supporting AWS infrastructure (Lambda, SES, S3) directly from natural-language prompts instead of hand-written IaC, making the setup reproducible by any team member.' },
+    { role: STELLAR, tags: ['multi-agent-systems','mcp','rancher','kubernetes','kiro'], text: 'Built a multi-agent AI system for Kubernetes operations — a codebase-aware agent built with Kiro, a Kubernetes agent pulling live cluster configs via the Rancher MCP server, and an orchestrator that answers natural-language ops questions and generates reports.' },
+    { role: STELLAR, tags: ['step-functions','lambda','eks','kubernetes','auto-scaling'], text: 'Implemented a downstream Step Function that waits for node replacement to complete, then triggers a validation Lambda to run automated sanity checks across all namespaces — reducing manual verification after every AMI refresh (node replacement is handled via the EKS-managed node group\'s underlying Auto Scaling Group).' },
+    { role: STELLAR, tags: ['mongodb','documentdb','aws-dms'], text: 'Led the migration of MongoDB to Amazon DocumentDB using AWS DMS, including schema validation, cutover planning, and the supporting Terraform infrastructure.' },
+    { role: STELLAR, tags: ['terraform','subnets','vpc','aws-dms','documentdb','mongodb'], text: 'Built the supporting migration infrastructure in Terraform, including the VPC subnet group, security groups, DocumentDB cluster, and DMS source/target endpoints and replication task.' },
+    { role: STELLAR, tags: ['route53'], text: 'Provisioned Route53 DNS records for every new cluster and database, ensuring consistent, discoverable service endpoints across environments.' },
+    { role: STELLAR, tags: ['jenkins','tomcat','sonarqube','veracode','twistlock'], text: 'Developed Jenkins pipelines for Tomcat-based applications, incorporating SonarQube code coverage, Veracode code quality assessment, and Twistlock image scanning.' },
+    { role: STELLAR, tags: ['jenkins','gitlab-cicd','maven','kaniko','ecr'], text: 'Migrated CI/CD from Jenkins to GitLab and built an end-to-end pipeline for Java and Python applications using Maven and Kaniko to build and push images to ECR — cutting feature turnaround time by 50%.' },
+    { role: STELLAR, tags: ['docker','kaniko','ecr','twistlock'], text: 'Wrote multi-stage Dockerfiles to produce lean, production-ready images for Java and Python services — separating build and runtime layers to reduce final image size and shrink the attack surface flagged by Twistlock scans.' },
+    { role: STELLAR, tags: ['argocd','helm','gitlab-cicd'], text: 'Migrated deployments to a GitOps model with Argo CD — updating CI pipelines to push manifest changes to a dedicated Argo branch, and using Argo CD to manage and sync Helm chart deployments across clusters.' },
+    { role: STELLAR, tags: ['gitlab-cicd','helm','vault'], text: 'Replaced a Vault-based configuration approach with a GitLab CI/CD and Helm-driven ConfigMap solution, and standardized deployments with template-driven Helm charts.' },
+    { role: STELLAR, tags: ['helm','kubernetes','yaml'], text: 'Transitioned deployments from raw Kubernetes YAML manifests to Helm, improving deployment agility and flexibility.' },
+    { role: STELLAR, tags: ['prometheus','datadog','kubernetes','keda','kafka','load-balancers'], text: 'Drove Kubernetes cost optimization by dynamically scaling pods on CPU, memory, and queue-lag and load-balancer request/latency metrics from Kafka using Prometheus, KEDA, and Datadog.' },
+    { role: STELLAR, tags: ['kubernetes','keda'], text: 'Ran a proof of concept recommending Kubernetes CronJobs and KEDA CronJobs to proactively scale pods ahead of peak traffic hours.' },
+    { role: STELLAR, tags: ['splunk'], text: 'Monitored application health daily via Splunk and built Splunk dashboards to ensure high availability and reliability for end customers.' },
+    { role: STELLAR, tags: ['kubernetes','eks','iam'], text: 'Led cluster upgrades from Kubernetes 1.10 to 1.21 and onward to Amazon EKS, implementing IAM Service Accounts (IRSA) to strengthen infrastructure security.' },
+    { role: STELLAR, tags: ['bitbucket','gitlab'], text: 'Migrated code repositories from Bitbucket to GitLab to consolidate code and pipelines in a single SCM.' },
+    { role: STELLAR, tags: ['ansible','ec2','cassandra','crowdstrike','sentinelone'], text: 'Wrote Ansible playbooks to deploy CrowdStrike Falcon and SentinelOne agents across EC2 fleets, and to provision Cassandra nodes on AWS.' },
+    { role: STELLAR, tags: ['helm','kubernetes'], text: 'Built a Helm chart for a DaemonSet to deploy security tooling across Kubernetes clusters.' },
+    { role: STELLAR, tags: ['helmfiles','vault','aurora'], text: 'Built HelmFiles to jointly deploy multiple Helm charts for a configuration sidecar using HashiCorp Vault, backed by Aurora MySQL, for centralized service configuration.' },
+    { role: STELLAR, tags: ['kops','shell','gitlab-cicd','checkov','rancher','instana','json','yaml','jq','yq'], text: 'Automated KOPS cluster provisioning via shell scripts (parsing cluster config as JSON/YAML with jq and yq) in GitLab pipelines, integrated Checkov for IaC security scanning, and registered new clusters with Rancher and Instana.' },
+    { role: STELLAR, tags: ['kafka','aurora','mongodb','cassandra','kerberos','sasl-ssl'], text: 'Managed production databases and messaging systems — Kafka, Aurora DB, MongoDB, and Cassandra — securing Kafka with Kerberos and SASL_SSL authentication for real-time services.' },
+    { role: STELLAR, tags: ['python','vault','s3','gitlab-cicd','aurora','grafana'], text: 'Wrote Python scripts to migrate secrets from S3 to HashiCorp Vault and to monitor GitLab CI/CD pipeline data into Aurora MySQL, with Grafana dashboards built on top for visibility.' },
+    { role: STELLAR, tags: ['postman','jmeter','java','spring-boot','jwt','newman'], text: 'Supported functional and performance testing with Postman and JMeter, and developed a Java/Spring Boot backend service to encrypt/decrypt data via JWT, automating API testing with Newman.' },
+    { role: STELLAR, tags: ['terraform','cloudformation','ec2','python'], text: 'Automated AWS infrastructure provisioning and EC2 start/stop scheduling for cost optimization using Terraform and CloudFormation, with Python (Boto3) scripts to inventory AWS resources.' },
+    { role: STELLAR, tags: ['jenkins','gitlab-cicd','jira'], text: 'Owned all build and deploy pipelines for the team, defining and tracking development, test, release, and support processes end-to-end.' },
+    { role: STELLAR, tags: ['helm','kubernetes'], text: 'Built generalized, template-driven Helm charts with flow control to standardize deployment across all applications and CronJobs, implementing safe pod termination via PreStop lifecycle hooks.' },
+    { role: SETUPBOXS, tags: ['java'], text: 'Developed internal RESTful web service APIs in Java, gaining hands-on backend development experience.' },
+    { role: SETUPBOXS, tags: ['mysql','rds'], text: 'Ensured MySQL high availability and configured backup instances on AWS RDS.' },
+    { role: SETUPBOXS, tags: ['ansible','rpm-yum','lvm'], text: 'Managed Linux package installation (RPM, YUM) and LVM provisioning, and wrote Ansible playbooks to automate routine system updates.' },
+    { role: PERSONAL, tags: ['github'], text: 'Hosts and version-controls personal projects on GitHub, including the source for this portfolio site, deployed live via GitHub Pages.' },
+  ];
+
+  // Skills genuinely listed on the resume but never spelled out in a bullet — connected here via
+  // real infrastructure logic (e.g. Kubernetes ingress needs a load balancer; EKS node groups run on
+  // an underlying Auto Scaling Group) rather than left blank.
+  const INFERRED = {
+    'sqs': 'Not named in a specific bullet, but SQS is the natural queuing complement to the Lambda/Step Functions serverless workflows built for AMI compliance and validation above — commonly used to decouple steps in event-driven AWS architectures like these.',
+    'sns': 'Not named in a specific bullet, but SNS commonly handles fan-out notifications in Lambda/Step Functions architectures like the AMI-compliance workflow above, alongside the SES-based owner notifications already in place.',
+    'azure': 'Listed as a secondary cloud platform. The Terraform, Ansible, and infrastructure-automation patterns demonstrated throughout this AWS-heavy experience are directly transferable to Azure\'s equivalent services (VMs, VNets, Resource Groups).',
+    'jfrog': 'Not named in a specific bullet, but JFrog Artifactory is a natural fit as the artifact registry alongside the Maven/Kaniko build pipeline and ECR image pushes described above.',
+    'nginx': 'Not named in a specific bullet, but Nginx is commonly used as the ingress/reverse-proxy layer in front of Tomcat application servers and Kubernetes workloads like the ones deployed here.',
+  };
+
+  const SKILL_LABELS = {};
+  document.querySelectorAll('.chip[data-tag]').forEach(c => { SKILL_LABELS[c.dataset.tag] = c.textContent.trim(); });
+
+  const drawer = document.getElementById('skill-drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  const drawerTitle = document.getElementById('drawer-title');
+  const drawerSub = document.getElementById('drawer-sub');
+  const drawerBody = document.getElementById('drawer-body');
+  let activeTag = null;
+
+  function openDrawer(tag){
+    activeTag = tag;
+    const label = SKILL_LABELS[tag] || tag;
+    const matches = BULLETS.filter(b => b.tags.includes(tag));
+
+    drawerTitle.textContent = label;
+    drawerBody.innerHTML = '';
+
+    if(matches.length > 0){
+      drawerSub.textContent = matches.length + (matches.length === 1 ? ' point' : ' points') + ' from experience';
+      matches.forEach(m => {
+        const item = document.createElement('div');
+        item.className = 'drawer-item';
+        item.innerHTML = '<div class="drawer-role">' + m.role + '</div><div class="drawer-text">' + m.text + '</div>';
+        drawerBody.appendChild(item);
+      });
+    } else if(INFERRED[tag]){
+      drawerSub.textContent = 'Related context (not a direct bullet)';
+      const item = document.createElement('div');
+      item.className = 'drawer-item inferred';
+      item.innerHTML = '<div class="drawer-role">Inferred from related work</div><div class="drawer-text">' + INFERRED[tag] + '</div>';
+      drawerBody.appendChild(item);
+    } else {
+      drawerSub.textContent = '';
+      drawerBody.innerHTML = '<div class="drawer-empty">Listed as a skill on the resume, without a specific supporting bullet.</div>';
+    }
+
+    document.querySelectorAll('.chip[data-tag]').forEach(c => c.classList.toggle('active', c.dataset.tag === tag));
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+  }
+
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    document.querySelectorAll('.chip[data-tag]').forEach(c => c.classList.remove('active'));
+    activeTag = null;
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    const chips = document.querySelectorAll('.chip[data-tag]');
-    const bullets = document.querySelectorAll('.role li[data-tags]');
-    const banner = document.getElementById('filter-banner');
-    const bannerText = document.getElementById('filter-banner-text');
-    const clearBtn = document.getElementById('filter-clear');
-    let activeTag = null;
-
-    function clearFilter(){
-      activeTag = null;
-      chips.forEach(c => c.classList.remove('active'));
-      bullets.forEach(li => {
-        li.classList.remove('dim','match');
-        if(li.classList.contains('extra')) li.classList.add('hidden-extra');
-      });
-      banner.style.display = 'none';
-    }
-
-    function applyFilter(tag, label){
-      activeTag = tag;
-      chips.forEach(c => c.classList.toggle('active', c.dataset.tag === tag));
-      let anyMatch = false;
-      let revealedExtra = false;
-      bullets.forEach(li => {
-        const tags = (li.dataset.tags || '').split(' ').filter(Boolean);
-        const isExtra = li.classList.contains('extra');
-        if(tags.includes(tag)){
-          li.classList.add('match');
-          li.classList.remove('dim');
-          if(isExtra){
-            li.classList.remove('hidden-extra');
-            revealedExtra = true;
-          }
-          anyMatch = true;
-        } else {
-          li.classList.add('dim');
-          li.classList.remove('match');
-          if(isExtra) li.classList.add('hidden-extra');
-        }
-      });
-      if(!anyMatch){
-        bannerText.textContent = 'No bullet currently describes ' + label + ' directly, though it may support the work above.';
-      } else if(revealedExtra){
-        bannerText.textContent = 'Showing experience involving: ' + label + ' (includes a point not shown by default)';
-      } else {
-        bannerText.textContent = 'Showing experience involving: ' + label;
-      }
-      banner.style.display = 'flex';
-      document.getElementById('experience').scrollIntoView({behavior:'smooth', block:'start'});
-    }
-
-    chips.forEach(chip => {
+    document.querySelectorAll('.chip[data-tag]').forEach(chip => {
       chip.addEventListener('click', () => {
         const tag = chip.dataset.tag;
         if(activeTag === tag){
-          clearFilter();
+          closeDrawer();
         } else {
-          applyFilter(tag, chip.textContent.trim());
+          openDrawer(tag);
         }
       });
     });
+    document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeDrawer(); });
 
-    clearBtn.addEventListener('click', clearFilter);
+    // Read more / show less toggles for long experience lists
+    document.querySelectorAll('.read-more-btn').forEach(btn => {
+      const target = document.getElementById(btn.dataset.target);
+      const count = btn.dataset.count;
+      btn.addEventListener('click', () => {
+        const isOpen = target.classList.toggle('show');
+        btn.innerHTML = isOpen
+          ? 'Show less'
+          : 'Read more <span class="rm-count">(+' + count + ' points)</span>';
+      });
+    });
   });
 </script>
 
